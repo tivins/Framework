@@ -1,0 +1,16 @@
+{
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Tivins\\Framework\\": "src/"
+        },
+        "files": [
+            "src/functions.php"
+        ]
+    },
+    "require": {
+        "php":              ">=7.2",
+        "erusev/parsedown": "^1.7",
+        "tivins/database":  "dev-main"
+    }
+}
