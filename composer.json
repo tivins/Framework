@@ -1,5 +1,5 @@
 {
-    "name": "tivins/Framework",
+    "name": "tivins/framework",
     "description": "PHP Framework for web applications",
     "minimum-stability": "dev",
     "autoload": {
