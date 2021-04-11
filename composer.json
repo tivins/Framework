@@ -1,4 +1,6 @@
 {
+    "name": "tivins/Framework",
+    "description": "PHP Framework for web applications",
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
