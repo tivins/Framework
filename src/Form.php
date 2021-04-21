@@ -1,5 +1,7 @@
 <?php
 
+namespace Tivins\Framework;
+
 class Form
 {
     public static function form(string $formId, string $formAction, string $formContent)
