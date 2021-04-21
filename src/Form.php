@@ -2,6 +2,14 @@
 
 class Form
 {
+    public static function form(string $formId, string $formAction, string $formContent)
+    {
+        return '<form method="post" action="' . $formAction . '">'
+            . self::hidden('hash', encode_security_token($formId))
+            . $formContent
+            . '</form>';
+    }
+
     public static function hidden(string $name, string $value) : string
     {
         return '<input type="hidden" name="' . html($name) . '" value="' . html($value) . '">';
