@@ -2,7 +2,7 @@
 
 namespace Tivins\Framework;
 
-use Tivins\Database;
+use Tivins\Database\Database;
 use Tivins\Database\Connectors\Connector;
 use Parsedown;
 
