@@ -11,7 +11,6 @@ class Enum
         $oClass = new \ReflectionClass(get_called_class());
         $consts = $oClass->getConstants();
         self::$_names = array_flip($consts);
-        var_dump(self::$_names);
     }
 
     public static function toString(int $state) : string
