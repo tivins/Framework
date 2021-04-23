@@ -15,7 +15,7 @@ class App
 
     public static function init()
     {
-        sessionInit();
+        Session::init();
         self::$router = new Router();
     }
 

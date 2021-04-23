@@ -25,3 +25,16 @@ function mapHTMLTag(string $model, array $stringList): string
         $stringList)
     );
 }
+
+/* will be (re)moved soon */
+function pathToURL($path) {
+    /* TODO : add config path here */
+    return "/$path";
+}
+
+/* will be (re)moved soon */
+function assertAuth($redirectURL = 'user')
+{
+    if (Session::auth()) return;
+    redirect(pathToURL($redirectURL));
+}
