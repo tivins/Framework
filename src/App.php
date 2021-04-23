@@ -12,10 +12,12 @@ class App
     private static Router    $router;
     private static Logger    $logger;
     private static Parsedown $parsedown;
+    private static Msg       $msg;
 
     public static function init()
     {
         Session::init();
+        self::$msg = new Msg();
         self::$router = new Router();
     }
 
@@ -32,6 +34,8 @@ class App
 
     public static function router() : Router { return self::$router; }
     public static function db() : Database { return self::$db; }
+    public static function msg() : Msg { return self::$msg; }
     public static function logger() : Logger { return self::$logger; }
     public static function setLogger(Logger $logger) : void { self::$logger = $logger; }
+    public static function setMessenger(Msg $msg) : void { self::$msg = $msg; }
 }
