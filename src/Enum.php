@@ -1,5 +1,17 @@
 <?php
-
+/**
+* @example
+* <code>
+* use Tivins\Framework\Enum;
+* class MyEnum extends Enum
+* {
+*    const CONST_1 = 1;
+*    const CONST_2 = 2;
+* }
+* var_export(MyEnum::CONST_1); // 1
+* var_export(MyEnum::toString(MyEnum::CONST_1)); // 'CONST_1'
+* </code>
+*/
 namespace Tivins\Framework;
 
 class Enum
