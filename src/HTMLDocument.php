@@ -10,24 +10,41 @@ class HTMLDocument
     private array  $scripts      = [];
     private array  $stylesheets  = [];
 
-    public function addScript(string $fileURL) : void
+
+    public function addScript(string $fileURL) : self
     {
         $this->scripts[] = $fileURL;
+        return $this;
     }
 
-    public function addCSS(string $fileURL) : void
+    public function removeScripts() : self
+    {
+        $this->scripts = [];
+        return $this;
+    }
+
+    public function addCSS(string $fileURL) : self
     {
         $this->stylesheets[] = $fileURL;
+        return $this;
     }
 
-    public function setSiteTitle(string $siteTitle) : void
+    public function removeStylesheets() : self
+    {
+        $this->stylesheets = [];
+        return $this;
+    }
+
+    public function setSiteTitle(string $siteTitle) : self
     {
         $this->siteTitle = $siteTitle;
+        return $this;
     }
 
-    public function setPageTitle(string $pageTitle) : void
+    public function setPageTitle(string $pageTitle) : self
     {
         $this->pageTitle = $pageTitle;
+        return $this;
     }
 
     public function getScripts() : string

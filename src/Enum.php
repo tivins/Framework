@@ -16,7 +16,7 @@ namespace Tivins\Framework;
 
 class Enum
 {
-    private static $_names;
+    private static array $_names;
 
     protected static function remap()
     {

@@ -5,6 +5,7 @@ namespace Tivins\Framework;
 use Tivins\Database\Database;
 use Tivins\Database\Connectors\Connector;
 use Parsedown;
+use Exception;
 
 class App
 {
@@ -18,9 +19,20 @@ class App
     public static function init()
     {
         Session::init();
+        self::boot();
         self::$msg      = new Msg();
         self::$router   = new Router();
         self::$doc      = new HTMLDocument();
+    }
+
+    public static function boot()
+    {
+        if (!isset($_SERVER['HTTP_HOST'])) { throw new Exception('HTTP_HOST missing'); }
+        if (!defined('FRAMEWORK_ROOT_PATH')) { throw new Exception('FRAMEWORK_ROOT_PATH not defined'); }
+
+        $settingsFile = FRAMEWORK_ROOT_PATH . '/settings/' . str_replace(':','-',$_SERVER['HTTP_HOST']) . '.settings.php';
+        if (!is_readable($settingsFile)) { throw new Exception("settings file ($settingsFile) not readable"); }
+        include $settingsFile;
     }
 
     public static function initDB(Connector $connector) { self::$db = new Database($connector); }
