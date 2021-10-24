@@ -1,11 +1,11 @@
 <?php
 
-function html(string $s)
+function html(string $s): string
 {
     return htmlspecialchars($s);
 }
 
-function redirect(string $url)
+function redirect(string $url) // : never
 {
     header('Location: ' . $url);
     exit;
