@@ -11,9 +11,11 @@ class HTMLDocument
     private array  $stylesheets  = [];
 
 
-    public function addScript(string $fileURL) : self
+    public function addScript(string ...$fileURL) : self
     {
-        $this->scripts[] = $fileURL;
+        foreach ($fileURL as $url) {
+            $this->scripts[] = $url;
+        }
         return $this;
     }
 
@@ -23,9 +25,11 @@ class HTMLDocument
         return $this;
     }
 
-    public function addCSS(string $fileURL) : self
+    public function addCSS(string ...$fileURL) : self
     {
-        $this->stylesheets[] = $fileURL;
+        foreach ($fileURL as $url) {
+            $this->stylesheets[] = $url;
+        }
         return $this;
     }
 
