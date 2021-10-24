@@ -42,6 +42,8 @@ Dependencies:
    App::initDB(new MySQLConnector("my_database", "user", "password"));
    ```
 
+   Nota: you can add a `common.settings.php` for shared rules (called first).
+
 3. Boot
    ```php
    <?php

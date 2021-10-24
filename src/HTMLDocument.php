@@ -80,7 +80,7 @@ class HTMLDocument
     {
         $contentInfo = new ContentInfo(ContentType::HTML, Charset::UTF8);
         $http = new HTTP($contentInfo);
-        $http->deliver("<em>hello world</em>");
+        $http->deliver($this);
     }
 
     public function __toString() : string

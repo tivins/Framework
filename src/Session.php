@@ -7,12 +7,13 @@ class Session
     /**
      * Initialize the session with necessary components.
      */
-    public static function init() : void
+    public static function init(Request $request) : void
     {
         session_start();
         if (!isset($_SESSION['uid']))   $_SESSION['uid']    = 0;
         if (empty($_SESSION['token']))  $_SESSION['token']  = bin2hex(random_bytes(32));
         if (empty($_SESSION['token2'])) $_SESSION['token2'] = random_bytes(32);
+        if (empty($_SESSION['lang']))   self::setLang($request->getPreferedLanguage());
     }
 
     /**
@@ -21,6 +22,15 @@ class Session
     public static function auth() : bool
     {
         return !empty($_SESSION['uid']);
+    }
+
+    public static function getLang(): string
+    {
+        return $_SESSION['lang'];
+    }
+    public static function setLang(string $shortCode): void
+    {
+        $_SESSION['lang'] = Lang::getValidated($shortCode);
     }
 
     /**
@@ -56,5 +66,11 @@ class Session
             && hash_equals($_SESSION['token'], $decoded[1])  // check the main token
             && hash_equals(Session::getFormToken($formId), $decoded[2]) // check the form token
             ;
+    }
+
+    public static function destroy()
+    {
+        session_destroy();
+        redirect('/');
     }
 }
