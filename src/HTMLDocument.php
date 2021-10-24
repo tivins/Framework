@@ -11,7 +11,11 @@ class HTMLDocument
     protected array  $scripts      = [];
     protected array  $stylesheets  = [];
 
-    public function addScript(string ...$fileURL) : self
+    public function __construct()
+    {
+    }
+
+    public function addScripts(string ...$fileURL) : self
     {
         foreach ($fileURL as $url) {
             $this->scripts[] = $url;
@@ -25,7 +29,7 @@ class HTMLDocument
         return $this;
     }
 
-    public function addCSS(string ...$fileURL) : self
+    public function addStylesheets(string ...$fileURL) : self
     {
         foreach ($fileURL as $url) {
             $this->stylesheets[] = $url;
@@ -67,7 +71,19 @@ class HTMLDocument
         return $this;
     }
 
-    public function render() : string
+    public function getContentInfo() : ContentInfo
+    {
+        return $this->contentInfo;
+    }
+
+    public function deliver()
+    {
+        $contentInfo = new ContentInfo(ContentType::HTML, Charset::UTF8);
+        $http = new HTTP($contentInfo);
+        $http->deliver("<em>hello world</em>");
+    }
+
+    public function __toString() : string
     {
         return implode("\n", [
             '<!doctype html>',

@@ -15,7 +15,6 @@ class App
     private static Parsedown    $parsedown;
     private static Msg          $msg;
     private static HTMLDocument $doc;
-    private static HTTPResponse $response;
 
     public static function init()
     {
@@ -24,7 +23,6 @@ class App
         self::$msg      = new Msg();
         self::$router   = new Router();
         self::$doc      = new HTMLDocument();
-        self::$response = new HTTPResponse();
     }
 
     public static function boot()
@@ -53,7 +51,6 @@ class App
     public static function msg() : Msg { return self::$msg; }
     public static function doc() : HTMLDocument { return self::$doc; }
     public static function logger() : Logger { return self::$logger; }
-    public static function response() : HTTPResponse { return self::$response; }
     public static function setLogger(Logger $logger) : void { self::$logger = $logger; }
     public static function setHTMLDocument(HTMLDocument $doc) : void { self::$doc = $doc; }
     public static function setMessenger(Msg $msg) : void { self::$msg = $msg; }

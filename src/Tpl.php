@@ -5,21 +5,44 @@ namespace Tivins\Framework;
 /**
  * Simple Template Helper
  *
- *
  * Replacements :
  *
  * * {{variable}} : HTML entities processed (safest)
  * * {!variable!} : No process.
  *
+ * Usage :
+ *
+ * use Tivins\Framework\Tpl;
+ * $tpl = new Tpl();
+ * $tpl->load("page.html");
+ * $tpl->setBody("<p>{{greetings}}</p>");
+ * $tpl->setVar("greetings", "Hello & world");
+ * echo $tpl; // `<p>Hello &amp; world</p>`
+ *
  */
 class Tpl
 {
-    public $html = '';
-    public $vars = [];
+    public string $html = '';
+    public array  $vars = [];
 
     public function concat(string $html): void
     {
         $this->html .= $html;
+    }
+
+    public function setBody(string $body): void
+    {
+        $this->html = $html;
+    }
+
+    public function load(string $filename): bool
+    {
+        $data = IO::download($filename);
+        if (is_null($data)) {
+            return false;
+        }
+        $this->html = $data;
+        return true;
     }
 
     public function setVar(string $key, string $value): void
@@ -30,11 +53,6 @@ class Tpl
     public function setVars(array $keys_values): void
     {
         $this->vars[$key] += $keys_values;
-    }
-
-    public function render()
-    {
-        return $this->process($this->html, $this->vars);
     }
 
     public function process(string $str, array $vars): string
@@ -48,6 +66,11 @@ class Tpl
             $str);
 
         return $str;
+    }
+
+    public function __toString(): string
+    {
+        return $this->process($this->html, $this->vars);
     }
 
 }
