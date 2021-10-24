@@ -34,7 +34,3 @@ class HTTP
         return $ct;
     }
 }
-
-// Shortest form
-(new HTTP(new ContentInfo(ContentType::HTML, Charset::UTF8)));
-->deliver("<em>hello world</em>");
