@@ -4,12 +4,12 @@ namespace Tivins\Framework;
 
 class HTMLDocument
 {
-    private string $siteTitle    = '';
-    private string $pageTitle    = '';
-    private string $pageLang     = 'en';
-    private array  $scripts      = [];
-    private array  $stylesheets  = [];
-
+    protected string $siteTitle    = '';
+    protected string $body         = '';
+    protected string $pageTitle    = '';
+    protected string $pageLang     = 'en';
+    protected array  $scripts      = [];
+    protected array  $stylesheets  = [];
 
     public function addScript(string ...$fileURL) : self
     {
@@ -61,7 +61,13 @@ class HTMLDocument
         return mapHTMLTag('<link rel="stylesheet" type="text/css" href="{{ value }}">', $this->stylesheets);
     }
 
-    public function render(string $body) : string
+    public function setBody(string $body) : self
+    {
+        $this->body = $body;
+        return $this;
+    }
+
+    public function render() : string
     {
         return implode("\n", [
             '<!doctype html>',
@@ -72,7 +78,7 @@ class HTMLDocument
                 $this->getStylesheets(),
                 '<title>' . implode(' - ', array_filter([$this->pageTitle, $this->siteTitle])) . '</title>',
             '</head><body>',
-                $body,
+                $this->body,
                 $this->getScripts(),
             '</body></html>',
         ]);
