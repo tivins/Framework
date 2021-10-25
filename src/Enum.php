@@ -14,13 +14,15 @@
 */
 namespace Tivins\Framework;
 
+use ReflectionClass;
+
 class Enum
 {
     private static array $_names;
 
     protected static function remap()
     {
-        $oClass = new \ReflectionClass(get_called_class());
+        $oClass = new ReflectionClass(get_called_class());
         $consts = $oClass->getConstants();
         self::$_names = array_flip($consts);
     }

@@ -76,9 +76,35 @@ class HTMLDocument
         return $this->contentInfo;
     }
 
-    public function deliver()
+    /**
+     * @see HTTPStatus
+     */
+    public function deliverStatus(int $status)
     {
-        $contentInfo = new ContentInfo(ContentType::HTML, Charset::UTF8);
+        $this->setBody('
+            <h1 class="text-center fw-light" style="font-size:300%;margin-top:5rem">'.html($this->siteTitle).'</h1>
+            <div class="aaa" style="position: absolute;top: 0;left: 0;right: 0;bottom: 25vh;display: flex;align-items: center;">
+                <div class="flex-grow"></div>
+                <div class="box p-md">
+                    <h3 class="m-0 pb-md border-bottom">' . html(I18n::get('Error_' . $status)) .' <span class="text-muted">(Status '.$status.')</span></h3>
+                    <div class="pb-md my-md border-bottom">Hum... Seem lost..<br>The requested page no longer exists.</div>
+
+                    <div class="flex text-center">
+                    <a class="button dark flex-grow mr-sm" href="javascript:history.back()"><i class="fa fa-chevron-left"></i> Back</a>
+                    <a class="button dark flex-grow ml-sm" href="/"><i class="fa fa-home"></i> Home</a>
+                    </div>
+
+                </div>
+                <div class="flex-grow"></div>
+            </div>
+        ');
+
+        $this->deliver($status);
+    }
+
+    public function deliver(int $status = HTTPStatus::OK)
+    {
+        $contentInfo = new ContentInfo(ContentType::HTML, Charset::UTF8, $status);
         $http = new HTTP($contentInfo);
         $http->deliver($this);
     }

@@ -1,6 +1,8 @@
 <?php
 namespace Tivins\Framework;
+
 use ReflectionClass;
+
 class Reflect
 {
     public static function getConstants($cn)

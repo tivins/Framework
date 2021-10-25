@@ -54,9 +54,14 @@ class App
         if (!isset($_SERVER['HTTP_HOST'])) { throw new Exception('HTTP_HOST missing'); }
         if (!defined('FRAMEWORK_ROOT_PATH')) { throw new Exception('FRAMEWORK_ROOT_PATH not defined'); }
 
+        // Load shared settings, if exists.
+        $settingsFile = FRAMEWORK_ROOT_PATH . '/settings/common.settings.php';
+        if (file_exists($settingsFile)) include $settingsFile;
+
+        // Load specific host settings.
         $settingsFile = FRAMEWORK_ROOT_PATH . '/settings/' . str_replace(':','-',$_SERVER['HTTP_HOST']) . '.settings.php';
         if (!is_readable($settingsFile)) { throw new Exception("settings file ($settingsFile) not readable"); }
-        include $settingsFile;
+        if (file_exists($settingsFile)) include $settingsFile;
     }
 
     public static function initDB(Connector $connector) { self::$db = new Database($connector); }

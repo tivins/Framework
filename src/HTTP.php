@@ -17,8 +17,9 @@ class HTTP
         $this->contentInfo = $contentInfo;
     }
 
-    public function deliver(string $contentBody)/*:never*/
+    public function deliver(string $contentBody)/*: never */
     {
+        http_response_code($this->contentInfo->status);
         header("Content-Type: " . $this->buildContentTypeString());
         echo $contentBody;
         exit(0);
@@ -26,7 +27,6 @@ class HTTP
 
     private function buildContentTypeString(): string
     {
-
         $ct = $this->contentInfo->type;
         if ($cs = $this->contentInfo->charset) {
             $ct .= "; charset={$cs}";

@@ -23,6 +23,9 @@ class Request
 
     }
 
+    /**
+     * Gets the timestamp of the request.
+     */
     public function getTime(): int
     {
         return $this->time;
@@ -57,6 +60,8 @@ class Request
      * Gets a sorted associative array as :
      *
      *     [ name1 => factor1, name2 => factor2, ... ]
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Glossary/Quality_values
      */
     public static function parseQualityValues(string $qValuesStr): array
     {

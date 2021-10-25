@@ -24,13 +24,27 @@ class Session
         return !empty($_SESSION['uid']);
     }
 
+    /**
+     * @return The shortCode of the current language.
+     */
     public static function getLang(): string
     {
         return $_SESSION['lang'];
     }
-    public static function setLang(string $shortCode): void
+
+    /**
+     * Set the current lang.
+     *
+     * @return
+     *      True If $shortCode is a valid, accepted language, false otherwise.
+     */
+    public static function setLang(string $shortCode): bool
     {
+        if (! Langs::exists($shortCode)) {
+            return false;
+        }
         $_SESSION['lang'] = Lang::getValidated($shortCode);
+        return true;
     }
 
     /**
