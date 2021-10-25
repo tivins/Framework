@@ -23,22 +23,17 @@ class Request
 
     }
 
-    public static function isCLI(): bool
-    {
-        return PHP_SAPI == "cli";
-    }
-
     public function getTime(): int
     {
         return $this->time;
     }
 
-    public function getLanguages()
+    public function getLanguages(): array
     {
         return self::parseQualityValues($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '');
     }
 
-    public function getPreferedLanguage()
+    public function getPreferedLanguage(): string
     {
         return key($this->getLanguages());
     }
@@ -48,13 +43,27 @@ class Request
         return ltrim($_SERVER['REQUEST_URI'], '/') ?? '';
     }
 
-    // --
+    // -- Static functions --
 
-    public static function parseQualityValues($string)
+    /**
+     * Returns if the SAPI is cli or not.
+     */
+    public static function isCLI(): bool
+    {
+        return PHP_SAPI == "cli";
+    }
+
+    /**
+     * Gets a sorted associative array as :
+     *
+     *     [ name1 => factor1, name2 => factor2, ... ]
+     */
+    public static function parseQualityValues(string $qValuesStr): array
     {
         $output = [];
-        $data = explode(',', $string);
-        foreach ($data as $qValue) {
+        $qValues = explode(',', $qValuesStr);
+        foreach ($qValues as $qValue)
+        {
             [$value, $factor] = explode(';', $qValue) + ['', 'q=1'];
             $factor = (float) substr($factor, 2); // remove 'q='
             $output[$value] = $factor;
