@@ -7,7 +7,7 @@ Requirements:
 
 Dependencies:
 
-* [tivins/database](https://github.com/tivins/database) (Only if a database is used for the project)
+* [tivins/database](https://github.com/tivins/database) (facultative. Only if a database is used for the project)
 * [erusev/parsedown](https://github.com/erusev/parsedown)
 
 ## Usage
@@ -38,9 +38,15 @@ Dependencies:
    Here is an example of the setting file:
    ```php
    <?php
+   
    use Tivins\Framework\App;
    use Tivins\Database\Connectors\MySQLConnector;
-   App::initDB(new MySQLConnector("my_database", "user", "password"));
+   
+   App::initDB(new MySQLConnector(
+       dbname:   "my_database",
+       user:     "db_user",
+       password: "password",
+   ));
    ```
 
    Nota: you can add a `common.settings.php` for shared rules (called first).
@@ -57,5 +63,7 @@ Dependencies:
 4. Index
    ```php
    <?php
+   use Tivins\Framework\App;
    require __dir__ . '/../boot.php';
+   App::doc()->deliver();
    ```
