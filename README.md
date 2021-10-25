@@ -7,7 +7,7 @@ Requirements:
 
 Dependencies:
 
-* tivins/database (Only if a database is used for the project)
+* [tivins/database](https://github.com/tivins/database) (Only if a database is used for the project)
 * [erusev/parsedown](https://github.com/erusev/parsedown)
 
 ## Usage
