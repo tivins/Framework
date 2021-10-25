@@ -10,6 +10,7 @@ class HTTPStatus
 
     // 300 - Redirection messages
 
+
     // 400 - Client error responses
     public const BadRequest     = 400;
     public const Unauthorized   = 401;
@@ -19,4 +20,9 @@ class HTTPStatus
     // 500 - Server error responses
     public const InternalServerError = 500;
     public const NotImplemented      = 501;
+
+    public static function isError(int $code): bool
+    {
+        return $code/100 >= 4;
+    }
 }

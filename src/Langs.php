@@ -6,7 +6,7 @@ use ReflectionClass;
 
 class Langs
 {
-    public const DATA = [
+    private const DATA = [
         'af' => 'Afrikaans',
         'id' => 'Bahasa Indonesia',
         'ms' => 'Bahasa Melayu',
@@ -79,5 +79,11 @@ class Langs
     public static function exists(string $shortCode): bool
     {
         return array_key_exists($shortCode, self::DATA);
+    }
+    public static function html(string $shortCode): bool
+    {
+        return preg_replace_callback('~_([a-z])~', function($matches) {
+            return '-' . strtoupper($matches[1]);
+        }, $shortCode);
     }
 }

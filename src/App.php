@@ -18,8 +18,9 @@ class App
     private static Logger       $logger;
     private static Parsedown    $parsedown;
     private static Msg          $msg;
-    private static HTMLDocument $doc;
+    private static Document     $doc;
     private static Request      $request;
+    private static string       $siteTitle = '';
 
     const CACHE_URL = '/cache';
     const CACHE_PATH = FRAMEWORK_ROOT_PATH . self::CACHE_URL;
@@ -27,13 +28,32 @@ class App
     public static function init(array $acceptedLanguages)
     {
         Lang::setAccepted(...$acceptedLanguages);
-        self::$request  = new Request();
-        self::boot();//after request.
-        Session::init(self::$request);
-        self::$msg      = new Msg(); // After Session::init()
 
+        self::$request  = new Request();
+        Session::init(self::$request);
+
+        self::boot();//after request.
+
+        self::$msg      = new Msg(); // After Session::init()
         self::$router   = new Router();
         self::$doc      = new HTMLDocument();
+    }
+
+    public static function setAcceptedLanguages(string ...$shortCode): void
+    {
+    }
+    public static function setSiteTitle(string $siteTitle): void
+    {
+        self::$siteTitle = $siteTitle;
+    }
+    public static function getSiteTitle(): string
+    {
+        return self::$siteTitle;
+    }
+
+    public static function setDocument(Document $doc)
+    {
+        self::$doc = $doc;
     }
 
     public static function getProductionMode(): int

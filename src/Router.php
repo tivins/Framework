@@ -11,6 +11,10 @@ class Router
     {
         $this->pathes[$path] = $data;
     }
+    public function registerPaths(array $data): void
+    {
+        $this->pathes = array_merge($this->pathes, $data);
+    }
 
     public function find(string $path): ?array
     {
