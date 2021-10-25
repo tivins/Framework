@@ -21,9 +21,10 @@ Dependencies:
 2. Prepare folders
    ```shell
    mkdir settings # create folder for settings files
-   touch settings/my-app.test.settings.php # See settings
+   cp settings/reference.settings.php settings/my-app.test.settings.php # See settings
    mkdir -p htdocs/cache # public data and its cache dir
    mkdir -p pdata/cache # private data and its cache dir
+   touch boot.php # see Boot
    touch htdocs/index.php # see Index
    ```
 
