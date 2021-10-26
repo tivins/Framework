@@ -3,18 +3,17 @@ namespace Tivins\Framework;
 
 class Singleton
 {
-    private static $instance;
+    private static $instances = [];
 
-    public static function getInstance()
+    public static function &getInstance()
     {
-        if (! isset($instance)) {
-            $class = get_called_class();
-            self::$instance = new $class;
+        $class = get_called_class();
+        if (empty(self::$instances[$class])) {
+            self::$instances[$class] = new $class;
         }
-        return self::$instance;
+        return self::$instances[$class];
     }
 
-    protected function __construct()
-    {
-    }
+    protected function __construct() { }
+    final private function __clone() { }
 }

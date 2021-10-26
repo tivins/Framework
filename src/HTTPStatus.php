@@ -2,6 +2,9 @@
 
 namespace Tivins\Framework;
 
+/**
+ * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+ */
 class HTTPStatus
 {
     // 200 - Successful responses

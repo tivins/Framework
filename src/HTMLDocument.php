@@ -64,16 +64,30 @@ class HTMLDocument extends Document
     /**
      * @see HTTPStatus
      */
-    private function overrideContentStatus(int $status)
+    private function overrideContentStatus(int $status, string $msg = '')
     {
+        if (! $msg) {
+            switch ($status) {
+                case HTTPStatus::NotFound:
+                    $msg = "Hum... Seem lost...\nThe requested page no longer exists.";
+                    break;
+                case HTTPStatus::InternalServerError:
+                    $msg = "Hum... Sorry...\nThe requested page raised an uncatched error.";
+                    break;
+                case HTTPStatus::Unauthorized:
+                    $msg = "Hum... Sorry...\nYou don't have the authorization to view this page.";
+                    break;
+            }
+        }
+
         $this->setBody('
-            <div class="aaa" style="position: absolute;top: 0;left: 0;right: 0;bottom: 25vh;display: flex;align-items: center;">
+            <div class="singlePage">
                 <div class="flex-grow"></div>
                 <div>
                     <h1 class="text-center fw-light" style="font-size:300%;">'.html(App::getSiteTitle()).'</h1>
                     <div class="box p-xl">
-                        <h3 class="m-0 pb-lg border-bottom">' . html(I18n::get('Error_' . $status)) .' <span class="text-muted">(Status '.$status.')</span></h3>
-                        <div class="pb-lg my-lg border-bottom">Hum... Seem lost..<br>The requested page no longer exists.</div>
+                        <h3 class="m-0 pb-lg border-bottom">' . html(I18n::get('Error_' . $status)) .' <div class="fs-80 text-muted">Code '.$status.'</div></h3>
+                        <div class="pb-lg my-lg border-bottom">'.nl2br(html($msg)).'</div>
 
                         <div class="flex text-center">
                         <a class="button dark flex-grow mr-sm" href="javascript:history.back()"><i class="fa fa-chevron-left"></i> Back</a>
@@ -88,9 +102,9 @@ class HTMLDocument extends Document
 
     public function deliver(int $status = HTTPStatus::OK)
     {
-        if (HTTPStatus::isError($status)) {
-            $this->overrideContentStatus($status);
-        }
+        // if (HTTPStatus::isError($status)) {
+        //     $this->overrideContentStatus($status);
+        // }
         $contentInfo = new ContentInfo(ContentType::HTML, Charset::UTF8, $status);
         $http = new HTTP($contentInfo);
         $http->deliver($this);

@@ -16,4 +16,8 @@ class Framework
             die;
         });
     }
+    public static function debug($str)
+    {
+        error_log($str);
+    }
 }

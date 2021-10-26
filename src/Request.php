@@ -43,7 +43,8 @@ class Request
 
     public function getRequestURI(): string
     {
-        return ltrim($_SERVER['REQUEST_URI'], '/') ?? '';
+        [$uri] = explode('?', ltrim($_SERVER['REQUEST_URI'] ?? '', '/'));
+        return $uri;
     }
 
     // -- Static functions --

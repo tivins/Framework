@@ -7,8 +7,8 @@ namespace Tivins\Framework;
  *
  * Replacements :
  *
- * * {{variable}} : HTML entities processed (safest)
- * * {!variable!} : No process.
+ * * {{ variable }} : HTML entities processed.
+ * * {! variable !} : No process.
  *
  * Usage :
  *
@@ -25,6 +25,15 @@ class Tpl
     public string $html = '';
     public array  $vars = [];
 
+    public function __construct(string $fileOrContent)
+    {
+        if (file_exists($fileOrContent)) {
+            $this->load($fileOrContent);
+        } else {
+            $this->setBody($fileOrContent);
+        }
+    }
+
     public function concat(string $html): void
     {
         $this->html .= $html;
@@ -32,7 +41,7 @@ class Tpl
 
     public function setBody(string $body): void
     {
-        $this->html = $html;
+        $this->html = $body;
     }
 
     public function load(string $filename): bool
@@ -52,16 +61,16 @@ class Tpl
 
     public function setVars(array $keys_values): void
     {
-        $this->vars[$key] += $keys_values;
+        $this->vars += $keys_values;
     }
 
     public function process(string $str, array $vars): string
     {
-        $str = preg_replace_callback('~{{(.*)}}~U',
+        $str = preg_replace_callback('~{{\s?(.*)\s?}}~U',
             fn($matches) => html($vars[$matches[1]] ?? $matches[1]),
             $str);
 
-        $str = preg_replace_callback('~{!(.*)!}~U',
+        $str = preg_replace_callback('~{!\s?(.*)\s?!}~U',
             fn($matches) => ($vars[$matches[1]] ?? $matches[1]),
             $str);
 
