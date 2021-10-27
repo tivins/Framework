@@ -7,7 +7,8 @@ namespace Tivins\Framework;
  *
  * Replacements :
  *
- * * {{ variable }} : HTML entities processed.
+ * * {{ variable }} : HTML entities.
+ * * {$ variable $} : Translated and HTML entities.
  * * {! variable !} : No process.
  *
  * Usage :
@@ -66,14 +67,23 @@ class Tpl
 
     public function process(string $str, array $vars): string
     {
-        $str = preg_replace_callback('~{{\s?(.*)\s?}}~U',
-            fn($matches) => html($vars[$matches[1]] ?? $matches[1]),
+        $str = preg_replace_callback('~\{\{\s?([a-zA-Z0-9]*)\s?\|?\s?([a-zA-Z0-9_,]+)?\s?\}\}~',
+            function($matches) use ($vars) {
+                $base = $vars[$matches[1]] ?? $matches[1];
+                if (isset($matches[2]) && in_array($matches[2], ['ucfirst'])) {
+                    $base = call_user_func($matches[2], $base);
+                }
+                return html($base);
+            },
             $str);
 
         $str = preg_replace_callback('~{!\s?(.*)\s?!}~U',
             fn($matches) => ($vars[$matches[1]] ?? $matches[1]),
             $str);
 
+        $str = preg_replace_callback('~{\$\s?(.*)\s?\$}~U',
+            fn($matches) => html(I18n::get($vars[$matches[1]] ?? $matches[1])),
+            $str);
         return $str;
     }
 
