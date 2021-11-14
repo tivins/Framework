@@ -4,9 +4,9 @@ namespace Tivins\Framework;
 
 class Form
 {
-    public static function form(string $formId, string $formAction, string $formContent)
+    public static function form(string $formId, string $formAction, string $formContent, string $method = "post")
     {
-        return '<form method="post" action="' . $formAction . '">'
+        return '<form method="' . $method . '" action="' . $formAction . '">'
             . self::hidden('hash', Session::encodeSecurityToken($formId))
             . $formContent
             . '</form>';

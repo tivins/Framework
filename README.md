@@ -20,7 +20,7 @@ Dependencies:
 
 2. Prepare folders
    ```shell
-   mkdir settings # create folder for settings files
+   mkdir -p settings # create folder for settings files
    cp vendor/tivins/framework/references/reference.settings.php settings/my-app.test.settings.php # See settings
    mkdir -p htdocs/cache # public data and its cache dir
    mkdir -p pdata/cache # private data and its cache dir

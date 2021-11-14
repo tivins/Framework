@@ -77,6 +77,13 @@ class Tpl
             },
             $str);
 
+        $str = preg_replace_callback('~\{\^\s?([a-zA-Z0-9\-\.]*)\s?\^\}~',
+            function($matches) use ($vars) {
+
+                return IO::download(FRAMEWORK_ROOT_PATH.'/templates/'.$matches[1]);
+            },
+            $str);
+
         $str = preg_replace_callback('~{!\s?(.*)\s?!}~U',
             fn($matches) => ($vars[$matches[1]] ?? $matches[1]),
             $str);
