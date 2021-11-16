@@ -11,6 +11,18 @@ function redirect(string $url) // : never
     exit;
 }
 
+/**
+ * Replace in $sources all occurence of keys in $replacements by associated
+ * values of $replacements.
+ */
+function replaceArray(string $source, array $replacements): string
+{
+    return str_replace(
+        array_keys($replacements),
+        array_values($replacements),
+        $source);
+}
+
 function getPath(int $index, string $default = '')
 {
     static $path;
