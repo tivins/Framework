@@ -20,6 +20,7 @@ class App
     private static Msg          $msg;
     private static Document     $doc;
     private static Request      $request;
+    private static AppData      $appdata;
     private static string       $siteTitle = '';
 
     const CACHE_URL = '/cache';
@@ -37,6 +38,10 @@ class App
         self::$msg      = new Msg(); // After Session::init()
         self::$router   = new Router();
         self::$doc      = new HTMLDocument();
+    }
+
+    public static function setAppData(AppData $object): void {
+        self::$appdata = $object;
     }
 
     public static function setAcceptedLanguages(string ...$shortCode): void
