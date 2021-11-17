@@ -83,7 +83,7 @@ class Tpl
         $str = preg_replace_callback('~\{\{\s?([a-zA-Z0-9]*)\s?\|?\s?([a-zA-Z0-9_,]+)?\s?\}\}~',
             function($matches) use ($vars) {
                 $base = $vars[$matches[1]] ?? $matches[1];
-                if (isset($matches[2]) && in_array($matches[2], ['ucfirst','number_format'])) {
+                if (isset($matches[2]) && in_array($matches[2], ['ucfirst','number_format','time_short'])) {
                     $base = call_user_func($matches[2], $base);
                 }
                 return html($base);

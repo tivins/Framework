@@ -47,7 +47,7 @@ class App
     public static function setAcceptedLanguages(string ...$shortCode): void
     {
     }
-    public static function setSiteTitle(string $siteTitle): void
+    public static function setSiteTitle(string $siteTitle)
     {
         self::$siteTitle = $siteTitle;
     }

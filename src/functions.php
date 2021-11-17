@@ -60,3 +60,9 @@ function assertAuth($redirectURL = 'user')
     if (Session::auth()) return;
     redirect(pathToURL($redirectURL));
 }
+
+
+function time_short(int $timestamp)
+{
+    return date('d M. Y', $timestamp);
+}
