@@ -100,6 +100,16 @@ class App
         return $str;
     }
 
+    public static function checkFormPost(string $formId, string $formAction): /*never|*/bool
+    {
+        if (! Session::checkFormToken($formId, $_POST['hash'] ?? ''))
+        {
+            App::msg()->push("Security Error", Msg::Error);
+            redirect($formAction);
+        }
+        return true;
+    }
+
     public static function router(): Router { return self::$router; }
     public static function db(): Database { return self::$db; }
     public static function msg(): Msg { return self::$msg; }

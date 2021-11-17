@@ -1,11 +1,17 @@
 <?php
 
+/**
+ * @todo Move into an (string)Util class
+ */
 function html(string $s): string
 {
     return htmlspecialchars($s);
 }
 
-function redirect(string $url) // : never
+/**
+ * @todo Move ?
+ */
+function redirect(string $url)/*: never*/
 {
     header('Location: ' . $url);
     exit;
@@ -23,6 +29,10 @@ function replaceArray(string $source, array $replacements): string
         $source);
 }
 
+/**
+ * @deprecated
+ * @todo remove now ?
+ */
 function getPath(int $index, string $default = '')
 {
     static $path;

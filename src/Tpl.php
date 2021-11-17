@@ -71,6 +71,13 @@ class Tpl
 
     public function process(string $str, array $vars): string
     {
+        $str = preg_replace_callback('~\{\^\s?([a-zA-Z0-9\-\.]*)\s?\^\}~',
+            function($matches) use ($vars) {
+
+                return IO::download(FRAMEWORK_ROOT_PATH.'/templates/'.$matches[1]);
+            },
+            $str);
+
         $str = $this->replaceBlocks($str);
 
         $str = preg_replace_callback('~\{\{\s?([a-zA-Z0-9]*)\s?\|?\s?([a-zA-Z0-9_,]+)?\s?\}\}~',
@@ -80,13 +87,6 @@ class Tpl
                     $base = call_user_func($matches[2], $base);
                 }
                 return html($base);
-            },
-            $str);
-
-        $str = preg_replace_callback('~\{\^\s?([a-zA-Z0-9\-\.]*)\s?\^\}~',
-            function($matches) use ($vars) {
-
-                return IO::download(FRAMEWORK_ROOT_PATH.'/templates/'.$matches[1]);
             },
             $str);
 
