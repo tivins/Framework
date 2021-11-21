@@ -36,13 +36,9 @@ class Request
         return self::parseQualityValues($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '');
     }
 
-    public function getPreferedLanguage(): ?string
+    public function getPreferedLanguage(): string
     {
-        $langs = $this->getLanguages();
-        if (is_empty($langs)) {
-            return null;
-        }
-        return array_key_first($langs);
+        return key($this->getLanguages());
     }
 
     public function getRequestURI(): string

@@ -3,32 +3,70 @@
 namespace Tivins\Framework;
 
 /**
- * Simple Template Helper
+ * Simple Template Engine
  *
- * Replacements :
+ * Basics replacements :
  *
  * * {{ variable }} : HTML entities.
  * * {$ variable $} : Translated and HTML entities.
  * * {! variable !} : No process.
+ * * {^ file.html ^} : Include file.
  *
- * Usage :
+ * ## Usage
  *
+ * ```php
  * use Tivins\Framework\Tpl;
- * $tpl = new Tpl();
- * $tpl->load("page.html");
- * $tpl->setBody("<p>{{greetings}}</p>");
+ * $tpl = new Tpl("<p>{{greetings}}</p>");
  * $tpl->setVar("greetings", "Hello & world");
  * echo $tpl; // `<p>Hello &amp; world</p>`
+ * ```
+ *
+ * ## Blocks
+ *
+ * ```html
+ * <!-- BEGIN blockname -->
+ * <p>A block that contains a {{ variable }}.</p>
+ * <!-- END blockname -->
+ * ```
+ *
+ * ```php
+ * $tpl->block('blockname', ['variable' => 'lorem']);
+ * $tpl->block('blockname', ['variable' => 'ipsum']);
+ * ```
+ *
+ * Will render :
+ *
+ * ```html
+ * <p>A block that contains a lorem.</p>
+ * <p>A block that contains a ipsum.</p>
+ * ```
+ *
+ * NB: if there is no $tpl->block('blockname', $args), the block will not be
+ * rendered.
+ *
+ * ## Nested blocks
+ *
+ * ```html
+ * <!-- BEGIN blockname -->
+ * <p>A block that contains a {{ variable }}.</p>
+ *   <!-- BEGIN subblockname -->
+ *   <p>A subblock that contains {{  anotherVariable }}.</p>
+ *   <!-- END subblockname -->
+ * <!-- END blockname -->
+ * ```
+ *
+ * ...todo
  *
  */
 class Tpl
 {
-    public string $html = '';
-    public array  $vars = [];
+    public string $html     = '';
+    public array  $vars     = [];
+    private array $storage  = []; /*blocks*/
 
-    /*blocks*/
-    private array $storage = [];
-
+    /**
+     *
+     */
     public function __construct(string $fileOrContent)
     {
         if (file_exists($fileOrContent)) {
@@ -38,17 +76,28 @@ class Tpl
         }
     }
 
-    public function concat(string $html): void
+    /**
+     *
+     */
+    public function concat(string $html): self
     {
         $this->html .= $html;
+        return $this;
     }
 
-    public function setBody(string $body): void
+    /**
+     *
+     */
+    public function setBody(string $body): self
     {
         $this->html = $body;
         $this->html = $this->parseBlocks($this->html);
+        return $this;
     }
 
+    /**
+     *
+     */
     public function load(string $filename): bool
     {
         $data = IO::download($filename);
@@ -59,16 +108,27 @@ class Tpl
         return true;
     }
 
-    public function setVar(string $key, string $value): void
+    /**
+     *
+     */
+    public function setVar(string $key, string $value): self
     {
         $this->vars[$key] = $value;
+        return $this;
     }
 
-    public function setVars(array $keys_values): void
+    /**
+     *
+     */
+    public function setVars(array $keys_values): self
     {
         $this->vars += $keys_values;
+        return $this;
     }
 
+    /**
+     *
+     */
     public function process(string $str, array $vars): string
     {
         $str = preg_replace_callback('~\{\^\s?([a-zA-Z0-9\-\.]*)\s?\^\}~',
@@ -101,9 +161,12 @@ class Tpl
         return $str;
     }
 
+    /**
+     *
+     */
     public function parseBlocks(string $str)
     {
-        $this->storage = [];
+        //$this->storage = [];
         while(preg_match('~<\!-- BEGIN ([a-zA-Z0-9]+) -->~', $str, $matches, PREG_OFFSET_CAPTURE))
         {
             [$name, $pos] = $matches[1];
@@ -133,7 +196,9 @@ class Tpl
         return $str;
     }
 
-
+    /**
+     *
+     */
     public function block(string $name, array $data)
     {
         if (! isset($this->storage[$name])) {
@@ -146,6 +211,9 @@ class Tpl
         $this->storage[$name]['processed'] .= $tpl;
     }
 
+    /**
+     *
+     */
     public function replaceBlocks(string $str)
     {
         foreach ($this->storage as $name => $data) {
@@ -154,9 +222,11 @@ class Tpl
         return $str;
     }
 
+    /**
+     *
+     */
     public function __toString(): string
     {
         return $this->process($this->html, $this->vars);
     }
-
 }
