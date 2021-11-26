@@ -7,18 +7,28 @@ class Router
     private array $pathes = [];
     private string $last_match = '';
 
+    /**
+     *
+     */
     public function register(string $path, array $data): void
     {
         $this->pathes[$path] = $data;
     }
+
+    /**
+     *
+     */
     public function registerPaths(array $data): void
     {
         $this->pathes = array_merge($this->pathes, $data);
     }
 
+    /**
+     *
+     */
     public function find(string $path): ?array
     {
-        // complete match
+        // fast, complete match
         if (isset($this->pathes[$path])) {
            $this->last_match = $path;
             return $this->pathes[$path] + ['args' => []];

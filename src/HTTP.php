@@ -5,8 +5,8 @@ namespace Tivins\Framework;
  *
  * Ex:
  *
- * HTTP::deliver($doc->getContentInfo(), $doc);
- * HTTP::deliver(new ContentInfo(ContentType::PNG), $imagickObject);
+ * $http->deliver($doc->getContentInfo(), $doc);
+ * (new HTTP(new ContentInfo(ContentType::PNG)))->deliver($imagickObject);
  */
 class HTTP
 {

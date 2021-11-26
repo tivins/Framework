@@ -4,14 +4,10 @@ namespace Tivins\Framework;
 
 class ContentInfo
 {
-    public string $type;
-    public string $charset;
-    public int    $status;
-
     public function __construct(
-        string $type    = ContentType::Text,
-        string $charset = Charset::ASCII,
-        int    $status  = HTTPStatus::OK,
+        public string $type    = ContentType::Text,
+        public string $charset = Charset::ASCII,
+        public int    $status  = HTTPStatus::OK,
     )
     {
         $this->type     = $type;

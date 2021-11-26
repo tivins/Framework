@@ -64,7 +64,7 @@ class HTMLDocument extends Document
     /**
      * @see HTTPStatus
      */
-    private function overrideContentStatus(int $status, string $msg = '')
+    protected function overrideContentStatus(int $status, string $msg = '')
     {
         if (! $msg) {
             switch ($status) {

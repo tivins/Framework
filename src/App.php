@@ -85,7 +85,7 @@ class App
 
         // Load specific host settings.
         $settingsFile = FRAMEWORK_ROOT_PATH . '/settings/' . str_replace(':','-',$_SERVER['HTTP_HOST']) . '.settings.php';
-        if (!is_readable($settingsFile)) { throw new Exception("settings file ($settingsFile) not readable"); }
+        // if (!is_readable($settingsFile)) { throw new Exception("settings file ($settingsFile) not readable"); }
         if (file_exists($settingsFile)) include $settingsFile;
     }
 
@@ -108,6 +108,11 @@ class App
             redirect($formAction);
         }
         return true;
+    }
+
+    public static function findRoute(): ?array
+    {
+        return self::$router->find(self::$request->getRequestURI());
     }
 
     public static function router(): Router { return self::$router; }
