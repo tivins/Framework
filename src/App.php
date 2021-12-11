@@ -26,6 +26,8 @@ class App
     const CACHE_URL = '/cache';
     const CACHE_PATH = FRAMEWORK_ROOT_PATH . self::CACHE_URL;
 
+
+
     public static function init(array $acceptedLanguages)
     {
         Lang::setAccepted(...$acceptedLanguages);

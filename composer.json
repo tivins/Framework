@@ -11,7 +11,7 @@
         ]
     },
     "require": {
-        "php":              ">=7.2",
+        "php": ">=8.1",
         "erusev/parsedown": "^1.7",
         "tivins/database":  "dev-main"
     }

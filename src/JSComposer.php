@@ -4,7 +4,7 @@ namespace Tivins\Framework;
 
 class JSComposer
 {
-    private string $source = '';
+    private array  $scripts = [];
 
     public function __construct()
     {
@@ -13,11 +13,18 @@ class JSComposer
 
     public function add(string $script)
     {
-        $this->source .= IO::download(__dir__ . '/../js/' . $script);
+        $this->scripts[] = $script;
     }
 
-    public function getSource(): string
+    public function __toString(): string
     {
-        return $this->source;
+        $main = '(function(){';
+        $source = '';
+        foreach ($this->scripts as $script) {
+            $source .= IO::download(__dir__ . '/../js/' . $script);
+            $main .= basename($script,'.js').'();';
+        }
+        $main .= '})();';
+        return $source.$main;
     }
 }

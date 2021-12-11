@@ -13,8 +13,8 @@ Dependencies:
 ## Usage
 
 1. Install
+
    ```shell
-   # echo "{}" > composer.json # for a new empty projet
    composer require tivins/framework
    ```
 
@@ -22,6 +22,7 @@ Dependencies:
    ```shell
    mkdir -p settings # create folder for settings files
    cp vendor/tivins/framework/references/reference.settings.php settings/my-app.test.settings.php # See settings
+   echo "settings/" >> .gitignore # do not commit settings files
    mkdir -p htdocs/cache # public data and its cache dir
    mkdir -p pdata/cache # private data and its cache dir
    touch boot.php # see Boot
@@ -67,3 +68,24 @@ Dependencies:
    require __dir__ . '/../boot.php';
    App::doc()->deliver();
    ```
+----
+
+## Fresh install
+
+```json
+{
+    "minimum-stability": "dev",
+    "require": {
+        "tivins/framework": "dev-main"
+    },
+    "autoload": {
+        "psr-4": {
+        }
+    }
+}
+```
+```sh
+composer u
+echo "vendor/" >> .gitignore
+echo "composer.lock" >> .gitignore
+```

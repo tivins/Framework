@@ -2,11 +2,18 @@
 
 namespace Tivins\Framework;
 
-class ContentType
+enum ContentType: String
 {
-    public const TEXT = "text/plain";
-    public const HTML = "text/html";
-    public const PNG  = "image/png";
-    public const JPEG = "image/jpeg";
-    public const JSON = "application/json";
+    case TEXT = "text/plain";
+    case HTML = "text/html";
+    case CSS = "text/css";
+    case JS = "text/javascript";
+    case PNG  = "image/png";
+    case JPEG = "image/jpeg";
+    case JSON = "application/json";
+
+    public function toString(): string
+    {
+        return $this->value;
+    }
 }

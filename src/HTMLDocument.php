@@ -100,7 +100,7 @@ class HTMLDocument extends Document
         ');
     }
 
-    public function deliver(int $status = HTTPStatus::OK)
+    public function deliver(HTTPStatus $status = HTTPStatus::OK): never
     {
         // if (HTTPStatus::isError($status)) {
         //     $this->overrideContentStatus($status);
@@ -116,6 +116,7 @@ class HTMLDocument extends Document
             '<!doctype html>',
             '<html lang="' . Langs::html($this->lang) . '">',
             '<head>',
+                '<title>' . $this->title . '</title>',
                 '<meta charset="utf-8">',
                 '<meta name="viewport" content="width=device-width, initial-scale=1">',
                 $this->getStylesheets(),

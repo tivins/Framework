@@ -2,8 +2,13 @@
 
 namespace Tivins\Framework;
 
-class Charset
+enum Charset: string
 {
-    public const ASCII = "";
-    public const UTF8 = "utf-8";
+    case ASCII = "";
+    case UTF8 = "utf-8";
+
+    public function toString(): string
+    {
+        return $this->value;
+    }
 }

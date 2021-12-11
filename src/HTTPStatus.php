@@ -5,42 +5,47 @@ namespace Tivins\Framework;
 /**
  * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
  */
-class HTTPStatus
+enum HTTPStatus: int
 {
     // 200 - Successful responses
-    public const OK                          = 200;
-    public const Created                     = 201;
-    public const Accepted                    = 202;
-    public const NonAuthoritativeInformation = 203;
-    public const NoContent                   = 204;
-    public const ResetContent                = 205;
-    public const PartialContent              = 206;
+    case OK = 200;
+    case Created = 201;
+    case Accepted = 202;
+    case NonAuthoritativeInformation = 203;
+    case NoContent = 204;
+    case ResetContent = 205;
+    case PartialContent = 206;
 
     // 300 - Redirection messages
-    public const MultipleChoices             = 300;
-    public const MovedPermanently            = 301;
-    public const Found                       = 302;
-    public const SeeOther                    = 303;
-    public const NotModified                 = 304;
+    case MultipleChoices = 300;
+    case MovedPermanently = 301;
+    case Found = 302;
+    case SeeOther = 303;
+    case NotModified = 304;
 
     // 400 - Client error responses
-    public const BadRequest                  = 400;
-    public const Unauthorized                = 401;
-    public const PaymentRequired             = 402;
-    public const Forbidden                   = 403;
-    public const NotFound                    = 404;
-    public const MethodNotAllowed            = 405;
-    public const NotAcceptable               = 406;
-    public const Conflict                    = 409;
+    case BadRequest = 400;
+    case Unauthorized = 401;
+    case PaymentRequired = 402;
+    case Forbidden = 403;
+    case NotFound = 404;
+    case MethodNotAllowed = 405;
+    case NotAcceptable = 406;
+    case Conflict = 409;
 
     // 500 - Server error responses
-    public const InternalServerError         = 500;
-    public const NotImplemented              = 501;
-    public const ServiceUnavailable          = 503;
+    case InternalServerError = 500;
+    case NotImplemented = 501;
+    case ServiceUnavailable = 503;
 
-    public static function isError(int $code): bool
+    public function toInteger(): int
     {
-        return $code/100 >= 4;
+        return $this->value;
+    }
+
+    public function isError(): bool
+    {
+        return $this->toInteger() / 100 >= 4;
     }
 }
 /*
