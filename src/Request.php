@@ -4,11 +4,13 @@ namespace Tivins\Framework;
 
 class Request
 {
-    private int $time = 0;
+    private int $time;
+    private HTTPMethod $method;
 
     public function __construct()
     {
         $this->time = $_SERVER['REQUEST_TIME'] ?? time();
+        $this->method = HTTPMethod::tryFrom($_SERVER['REQUEST_METHOD']) ?? HTTPMethod::NONE;
 
         if (self::isCLI())
         {
@@ -19,6 +21,7 @@ class Request
             $_SERVER['REQUEST_URI']    = $argv[2];
             $_SERVER['REMOTE_ADDR']    = '::1';
             $_SERVER['REQUEST_SCHEME'] = 'php' . PHP_VERSION_ID;
+            $_SERVER['REQUEST_METHOD'] = 'cli';
         }
 
     }
@@ -31,12 +34,21 @@ class Request
         return $this->time;
     }
 
+    /**
+     * Gets the HTTP Method of the request.
+     */
+    public function getMethod(): HTTPMethod
+    {
+        return $this->method;
+    }
+
+
     public function getLanguages(): array
     {
         return self::parseQualityValues($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '');
     }
 
-    public function getPreferedLanguage(): string
+    public function getPreferredLanguage(): string
     {
         return key($this->getLanguages());
     }

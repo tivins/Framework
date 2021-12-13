@@ -13,7 +13,7 @@ class Session
         if (!isset($_SESSION['uid']))   $_SESSION['uid']    = 0;
         if (empty($_SESSION['token']))  $_SESSION['token']  = bin2hex(random_bytes(32));
         if (empty($_SESSION['token2'])) $_SESSION['token2'] = random_bytes(32);
-        if (empty($_SESSION['lang']))   self::setLang($request->getPreferedLanguage());
+        if (empty($_SESSION['lang']))   self::setLang($request->getPreferredLanguage());
     }
 
     /**
