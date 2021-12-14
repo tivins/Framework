@@ -28,6 +28,11 @@ class Request
         $this->method = HTTPMethod::tryFrom($_SERVER['REQUEST_METHOD']) ?? HTTPMethod::NONE;
     }
 
+    public function getHost(): string
+    {
+        return $_SERVER['HTTP_HOST'];
+    }
+
     /**
      * Gets the timestamp of the request.
      */

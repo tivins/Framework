@@ -7,6 +7,8 @@ namespace Tivins\Framework;
  */
 enum HTTPStatus: int
 {
+    case Continue = 100;
+
     // 200 - Successful responses
     case OK = 200;
     case Created = 201;
@@ -22,6 +24,8 @@ enum HTTPStatus: int
     case Found = 302;
     case SeeOther = 303;
     case NotModified = 304;
+    case UseProxy = 305;
+    case TemporaryRedirect = 307;
 
     // 400 - Client error responses
     case BadRequest = 400;
@@ -32,6 +36,8 @@ enum HTTPStatus: int
     case MethodNotAllowed = 405;
     case NotAcceptable = 406;
     case Conflict = 409;
+    case Gone = 410;
+    case LengthRequired = 411;
 
     // 500 - Server error responses
     case InternalServerError = 500;
@@ -48,12 +54,8 @@ enum HTTPStatus: int
         return $this->toInteger() / 100 >= 4;
     }
 }
-/*
-   100 Continue
-   305 Use Proxy
-   307 Temporary Redirect
-   410 Gone
-   411 Length Required
+/**
+ * @todo
    412 Precondition Failed
    413 Request Entity Too Large
    414 Request-URI Too Long
