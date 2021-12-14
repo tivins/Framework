@@ -4,7 +4,8 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "Tivins\\Framework\\": "src/"
+            "Tivins\\Framework\\": "src/",
+            "Tivins\\Framework\\Tests\\": "tests/"
         },
         "files": [
             "src/functions.php"
@@ -14,5 +15,8 @@
         "php": ">=8.1",
         "erusev/parsedown": "^1.7",
         "tivins/database":  "dev-main"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5.10"
     }
 }

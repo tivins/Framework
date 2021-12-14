@@ -3,7 +3,7 @@ namespace Tivins\Framework;
 
 class Singleton
 {
-    private static $instances = [];
+    private static array $instances = [];
 
     public static function &getInstance()
     {
@@ -15,5 +15,5 @@ class Singleton
     }
 
     protected function __construct() { }
-    final private function __clone() { }
+    /*final*/ private function __clone() { }
 }

@@ -9,21 +9,23 @@ class Request
 
     public function __construct()
     {
-        $this->time = $_SERVER['REQUEST_TIME'] ?? time();
-        $this->method = HTTPMethod::tryFrom($_SERVER['REQUEST_METHOD']) ?? HTTPMethod::NONE;
-
         if (self::isCLI())
         {
             global $argv;
+
             if (!isset($argv[1])) { die("Arg1 must be HTTP_HOST.\n"); }
             if (!isset($argv[2])) { die("Arg2 must be REQUEST_URI.\n"); }
             $_SERVER['HTTP_HOST']      = $argv[1];
             $_SERVER['REQUEST_URI']    = $argv[2];
-            $_SERVER['REMOTE_ADDR']    = '::1';
-            $_SERVER['REQUEST_SCHEME'] = 'php' . PHP_VERSION_ID;
-            $_SERVER['REQUEST_METHOD'] = 'cli';
-        }
 
+            /** @noinspection SpellCheckingInspection */
+            $_SERVER['REMOTE_ADDR']    = 'cli';
+            $_SERVER['REQUEST_SCHEME'] = 'php' . PHP_VERSION_ID;
+            $_SERVER['REQUEST_METHOD'] = '';
+            $_SERVER['HTTP_ACCEPT']    = 'text/plain';
+        }
+        $this->time   = $_SERVER['REQUEST_TIME'] ?? time();
+        $this->method = HTTPMethod::tryFrom($_SERVER['REQUEST_METHOD']) ?? HTTPMethod::NONE;
     }
 
     /**
@@ -42,6 +44,16 @@ class Request
         return $this->method;
     }
 
+    public function getAccept(): array
+    {
+        return self::parseQualityValues($_SERVER['HTTP_ACCEPT'] ?? '');
+    }
+
+    public function getPrimaryAccept(): ContentType
+    {
+        $accepts = $this->getAccept();
+        return ContentType::tryFrom(array_key_first($accepts)) ?? ContentType::NONE;
+    }
 
     public function getLanguages(): array
     {
@@ -84,7 +96,7 @@ class Request
         {
             [$value, $factor] = explode(';', $qValue) + ['', 'q=1'];
             $factor = (float) substr($factor, 2); // remove 'q='
-            $output[$value] = $factor;
+            $output[trim($value)] = $factor;
         }
         arsort($output);
         return $output;
