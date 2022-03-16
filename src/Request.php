@@ -2,13 +2,18 @@
 
 namespace Tivins\Framework;
 
+use Tivins\Core\Http\Method as HTTPMethod;
+
 class Request
 {
     private int $time;
-    private HTTPMethod $method;
+    private ?HTTPMethod $method;
 
     public function __construct()
     {
+        /**
+         * @todo Use WebEngine::Boot instead (futurs commits)
+         */
         if (self::isCLI())
         {
             global $argv;
@@ -25,7 +30,7 @@ class Request
             $_SERVER['HTTP_ACCEPT']    = 'text/plain';
         }
         $this->time   = $_SERVER['REQUEST_TIME'] ?? time();
-        $this->method = HTTPMethod::tryFrom($_SERVER['REQUEST_METHOD']) ?? HTTPMethod::NONE;
+        $this->method = HTTPMethod::tryFrom($_SERVER['REQUEST_METHOD']);
     }
 
     public function getHost(): string

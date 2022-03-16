@@ -2,6 +2,10 @@
 
 namespace Tivins\Framework;
 
+/**
+ * @deprecated
+ * @see \Tivins\Core\Msg
+ */
 class Msg
 {
     public const Error   = 'error';
@@ -22,12 +26,12 @@ class Msg
     public function get() : string
     {
         if (empty($_SESSION['msg'])) return '';
-        $msgs = $_SESSION['msg'] ?? [];
+        $messages = $_SESSION['msg'];
         $_SESSION['msg'] = [];
 
         return $this->wrap( // customize wrapper
             implode( // convert String[] to String
-                array_map([$this, 'render'], $msgs) // customize msg
+                array_map([$this, 'render'], $messages) // customize msg
             )
         );
     }

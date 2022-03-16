@@ -5,7 +5,7 @@ namespace Tivins\Framework;
 enum ContentType: string
 {
     case NONE = "";
-    case ALL  = "*/*";
+    case ALL  = "*";
 
     case TEXT = "text/plain";
     case HTML = "text/html";
@@ -16,9 +16,4 @@ enum ContentType: string
     case JPEG = "image/jpeg";
 
     case JSON = "application/json";
-
-    public function toString(): string
-    {
-        return $this->value;
-    }
 }

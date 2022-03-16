@@ -11,4 +11,13 @@ class ContentInfo
     )
     {
     }
+    public function buildString(): string
+    {
+        $ct = $this->type->toString();
+        if ($cs = $this->charset) {
+            $ct .= "; charset={$cs->value}";
+        }
+        return $ct;
+    }
+
 }

@@ -20,20 +20,11 @@ class HTTP
 
     public function deliver(string $contentBody): never
     {
-        http_response_code($this->contentInfo->status->toInteger());
-        header("Content-Type: " . $this->buildContentTypeString());
+        http_response_code($this->contentInfo->status->value);
+        header('Content-Type: ' . $this->contentInfo->buildString());
         // header('Access-Control-Allow-Origin: *');
         echo $contentBody;
         exit(0);
-    }
-
-    private function buildContentTypeString(): string
-    {
-        $ct = $this->contentInfo->type->toString();
-        if ($cs = $this->contentInfo->charset) {
-            $ct .= "; charset={$cs->toString()}";
-        }
-        return $ct;
     }
 
     /**

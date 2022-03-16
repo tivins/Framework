@@ -44,6 +44,9 @@ enum HTTPStatus: int
     case NotImplemented = 501;
     case ServiceUnavailable = 503;
 
+    /**
+     * @deprecated use $this->value instead
+     */
     public function toInteger(): int
     {
         return $this->value;
@@ -51,7 +54,7 @@ enum HTTPStatus: int
 
     public function isError(): bool
     {
-        return $this->toInteger() / 100 >= 4;
+        return $this->value / 100 >= 4;
     }
 }
 /**
